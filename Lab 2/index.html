@@ -1,0 +1,41 @@
+<canvas id="c" width="400" height="400" style="border:1px solid #ccc"></canvas>
+<script>
+    const ctx = document.getElementById('c').getContext('2d');
+    const S = 40, OX = 60, OY = 340;
+
+    // переведення математичних координат у піксельні
+    const px = x => OX + x * S;
+    const py = y => OY - y * S;
+
+    function line(x1, y1, x2, y2, color = '#333', width = 1.5) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+    }
+
+    function dot(x, y, color = '#dc3545') {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // осі
+    line(30, OY, 380, OY);
+    line(OX, 370, OX, 20);
+
+    // підписи
+    ctx.fillStyle = '#000';
+    ctx.font = '12px Arial';
+    for (let x = 0; x <= 4; x++) ctx.fillText(x, px(x) - 4, OY + 18);
+    ctx.fillText('5', OX - 20, py(5) + 4);
+
+    // множина A × B: A = {0,1,2,3}, B = {y >= 5}
+    [0, 1, 2, 3].forEach(x => {
+        line(px(x), py(5), px(x), 20, '#007bff', 3);
+        dot(px(x), py(5));
+    });
+</script>
